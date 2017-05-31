@@ -73,6 +73,9 @@ export class Settings {
                     case "wsjf":
                         that._selectedFields.wsjfField = fieldReferenceName;
                         break;
+                    case "RR OV":
+                        that._selectedFields.RROVField = fieldReferenceName;
+                        break;
                 }
                 that.updateSaveButton();
             }
@@ -126,7 +129,10 @@ export class Settings {
         $("<label />").text("Effort Field").appendTo(effortContainer);
 
         let wsjfContainer = $("<div />").addClass("settings-control").appendTo(container);
-        $("<label />").text("WSJF Field").appendTo(wsjfContainer);            
+        $("<label />").text("WSJF Field").appendTo(wsjfContainer);  
+  
+        let RROVContainer = $("<div />").addClass("settings-control").appendTo(container);
+        $("<label />").text("RROV Field").appendTo(RROVContainer);              
 
         VSS.getService<IExtensionDataService>(VSS.ServiceIds.ExtensionData).then((dataService: IExtensionDataService) => {
             dataService.getValue<StoredFieldReferences>("storedFields").then((storedFields:StoredFieldReferences) => {
@@ -140,7 +146,8 @@ export class Settings {
                         bvField: "Microsoft.VSTS.Common.BusinessValue",
                         tcField: "Microsoft.VSTS.Common.TimeCriticality",
                         effortField: "Microsoft.VSTS.Scheduling.Effort",
-                        wsjfField: null
+                        wsjfField: null ,
+			RROVField: null
                     };
                 }
 
@@ -149,6 +156,8 @@ export class Settings {
                     Controls.create(Combo, tcContainer, this.getComboOptions("timeCriticality", fieldList, this._selectedFields.tcField));
                     Controls.create(Combo, effortContainer, this.getComboOptions("effort", fieldList, this._selectedFields.effortField));
                     Controls.create(Combo, wsjfContainer, this.getComboOptions("wsjf", fieldList, this._selectedFields.wsjfField));
+		    Controls.create(Combo, RROVContainer, this.getComboOptions("RR OV", fieldList, this._selectedFields.RROVField));
+
                     this.updateSaveButton();
 
                     VSS.notifyLoadSucceeded();
